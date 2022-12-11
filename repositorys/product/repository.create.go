@@ -6,8 +6,6 @@ import (
 	"service-product/schemas"
 
 	"gorm.io/gorm"
-
-
 )
 
 type RepositoryCreate interface {
@@ -40,9 +38,10 @@ func (r *repositoryCreate) CreateProductRepository(input *schemas.SchemaProduct)
 
 	product.Name = input.Name
 	product.Quantity = input.Quantity
+	product.Price = input.Price
 	product.IsActive = input.IsActive
 
-	addNewProduct := db.Debug().Create(&product).Commit()
+	addNewProduct := db.Debug().Create(&product)
 
 	if addNewProduct.RowsAffected < 1 {
 		errorCode <- schemas.SchemaDatabaseError{

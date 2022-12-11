@@ -5,6 +5,7 @@ import (
 	"service-product/helpers"
 	"service-product/schemas"
 	services "service-product/services/product"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,9 +21,7 @@ func NewHandlerResultProduct(service services.ServiceResult) *HandlerResult {
 func (h *HandlerResult) ResultProductHandler(ctx *gin.Context) {
 
 	var input schemas.SchemaProduct
-	input.ID = ctx.Param("id")
-
-
+	input.ID, _ = strconv.ParseInt(ctx.Param("id"), 10, 64)
 
 	res, err := h.service.ResultProductService(&input)
 

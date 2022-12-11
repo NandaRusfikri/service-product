@@ -38,8 +38,8 @@ func NewServiceProductHandlerEndpoints() []*api.Endpoint {
 
 type ServiceProductHandlerService interface {
 	ListProductRPC(ctx context.Context, in *emptypb.Empty, opts ...client.CallOption) (*ResponseModelProductList, error)
-	CreateProductRPC(ctx context.Context, in *CreateProductRequest, opts ...client.CallOption) (*ModelProtoProduct, error)
-	UpdateProductRPC(ctx context.Context, in *ModelProtoProduct, opts ...client.CallOption) (*ModelProtoProduct, error)
+	CreateProductRPC(ctx context.Context, in *CreateProductRequest, opts ...client.CallOption) (*EntityProtoProduct, error)
+	UpdateProductRPC(ctx context.Context, in *EntityProtoProduct, opts ...client.CallOption) (*EntityProtoProduct, error)
 	DeleteProductRPC(ctx context.Context, in *DeleteProductRequest, opts ...client.CallOption) (*emptypb.Empty, error)
 }
 
@@ -65,9 +65,9 @@ func (c *serviceProductHandlerService) ListProductRPC(ctx context.Context, in *e
 	return out, nil
 }
 
-func (c *serviceProductHandlerService) CreateProductRPC(ctx context.Context, in *CreateProductRequest, opts ...client.CallOption) (*ModelProtoProduct, error) {
+func (c *serviceProductHandlerService) CreateProductRPC(ctx context.Context, in *CreateProductRequest, opts ...client.CallOption) (*EntityProtoProduct, error) {
 	req := c.c.NewRequest(c.name, "ServiceProductHandler.CreateProductRPC", in)
-	out := new(ModelProtoProduct)
+	out := new(EntityProtoProduct)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -75,9 +75,9 @@ func (c *serviceProductHandlerService) CreateProductRPC(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *serviceProductHandlerService) UpdateProductRPC(ctx context.Context, in *ModelProtoProduct, opts ...client.CallOption) (*ModelProtoProduct, error) {
+func (c *serviceProductHandlerService) UpdateProductRPC(ctx context.Context, in *EntityProtoProduct, opts ...client.CallOption) (*EntityProtoProduct, error) {
 	req := c.c.NewRequest(c.name, "ServiceProductHandler.UpdateProductRPC", in)
-	out := new(ModelProtoProduct)
+	out := new(EntityProtoProduct)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -99,16 +99,16 @@ func (c *serviceProductHandlerService) DeleteProductRPC(ctx context.Context, in 
 
 type ServiceProductHandlerHandler interface {
 	ListProductRPC(context.Context, *emptypb.Empty, *ResponseModelProductList) error
-	CreateProductRPC(context.Context, *CreateProductRequest, *ModelProtoProduct) error
-	UpdateProductRPC(context.Context, *ModelProtoProduct, *ModelProtoProduct) error
+	CreateProductRPC(context.Context, *CreateProductRequest, *EntityProtoProduct) error
+	UpdateProductRPC(context.Context, *EntityProtoProduct, *EntityProtoProduct) error
 	DeleteProductRPC(context.Context, *DeleteProductRequest, *emptypb.Empty) error
 }
 
 func RegisterServiceProductHandlerHandler(s server.Server, hdlr ServiceProductHandlerHandler, opts ...server.HandlerOption) error {
 	type serviceProductHandler interface {
 		ListProductRPC(ctx context.Context, in *emptypb.Empty, out *ResponseModelProductList) error
-		CreateProductRPC(ctx context.Context, in *CreateProductRequest, out *ModelProtoProduct) error
-		UpdateProductRPC(ctx context.Context, in *ModelProtoProduct, out *ModelProtoProduct) error
+		CreateProductRPC(ctx context.Context, in *CreateProductRequest, out *EntityProtoProduct) error
+		UpdateProductRPC(ctx context.Context, in *EntityProtoProduct, out *EntityProtoProduct) error
 		DeleteProductRPC(ctx context.Context, in *DeleteProductRequest, out *emptypb.Empty) error
 	}
 	type ServiceProductHandler struct {
@@ -126,11 +126,11 @@ func (h *serviceProductHandlerHandler) ListProductRPC(ctx context.Context, in *e
 	return h.ServiceProductHandlerHandler.ListProductRPC(ctx, in, out)
 }
 
-func (h *serviceProductHandlerHandler) CreateProductRPC(ctx context.Context, in *CreateProductRequest, out *ModelProtoProduct) error {
+func (h *serviceProductHandlerHandler) CreateProductRPC(ctx context.Context, in *CreateProductRequest, out *EntityProtoProduct) error {
 	return h.ServiceProductHandlerHandler.CreateProductRPC(ctx, in, out)
 }
 
-func (h *serviceProductHandlerHandler) UpdateProductRPC(ctx context.Context, in *ModelProtoProduct, out *ModelProtoProduct) error {
+func (h *serviceProductHandlerHandler) UpdateProductRPC(ctx context.Context, in *EntityProtoProduct, out *EntityProtoProduct) error {
 	return h.ServiceProductHandlerHandler.UpdateProductRPC(ctx, in, out)
 }
 

@@ -8,6 +8,7 @@ import (
 	"service-product/helpers"
 	pb "service-product/proto"
 	services "service-product/services/product"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,22 +33,22 @@ func (h *HandlerResults) ResultsProductHandler(ctx *gin.Context) {
 	}
 }
 
-func (h *ServiceProductHandler) ListProductRPC(ctx context.Context,empty *empty.Empty, res *pb.ResponseModelProductList) error {
+func (h *ServiceProductHandler) ListProductRPC(ctx context.Context, empty *empty.Empty, res *pb.ResponseModelProductList) error {
 
 	ListProduct, err := h.serviceResults.ResultsProductService()
 
-	var ListProto  []*pb.ModelProtoProduct
+	var ListProto []*pb.EntityProtoProduct
 
 	switch err.Code {
 	case 500:
 		return errors.New("Internal Server Error")
 	default:
 		for _, product := range ListProduct {
-			data := pb.ModelProtoProduct{
-				Id:product.ID,
-				Name: product.Name,
+			data := pb.EntityProtoProduct{
+				Id:       strconv.FormatInt(product.ID, 10),
+				Name:     product.Name,
 				Quantity: product.Quantity,
-				Price: product.Price,
+				Price:    product.Price,
 				IsActive: product.IsActive,
 			}
 			ListProto = append(ListProto, &data)

@@ -24,6 +24,7 @@ func (s *serviceCreate) CreateProductService(input *schemas.SchemaProduct) (*mod
 	student.Name = input.Name
 	student.Quantity = input.Quantity
 	student.IsActive = input.IsActive
+	student.Price = input.Price
 
 	res, err := s.repository.CreateProductRepository(&student)
 	return res, err

@@ -5,9 +5,10 @@ import (
 	"errors"
 	"net/http"
 	"service-product/helpers"
+	pb "service-product/proto"
 	"service-product/schemas"
 	services "service-product/services/product"
-	pb "service-product/proto"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,10 +24,8 @@ func NewHandlerUpdateProduct(service services.ServiceUpdate) *handlerUpdate {
 func (h *handlerUpdate) UpdateProductHandler(ctx *gin.Context) {
 
 	var input schemas.SchemaProduct
-	input.ID = ctx.Param("id")
+	input.ID, _ = strconv.ParseInt(ctx.Param("id"), 10, 64)
 	ctx.ShouldBindJSON(&input)
-
-
 
 	_, err := h.service.UpdateProductService(&input)
 
@@ -40,10 +39,10 @@ func (h *handlerUpdate) UpdateProductHandler(ctx *gin.Context) {
 	}
 }
 
-func (h *ServiceProductHandler) UpdateProductRPC(ctx context.Context, req *pb.ModelProtoProduct, res *pb.ModelProtoProduct)  error {
+func (h *ServiceProductHandler) UpdateProductRPC(ctx context.Context, req *pb.EntityProtoProduct, res *pb.EntityProtoProduct) error {
 
 	var input schemas.SchemaProduct
-	input.ID = req.Id
+	input.ID, _ = strconv.ParseInt(req.Id, 10, 64)
 	input.Name = req.Name
 	input.Price = req.Price
 	input.Quantity = req.Quantity
@@ -59,7 +58,7 @@ func (h *ServiceProductHandler) UpdateProductRPC(ctx context.Context, req *pb.Mo
 	case 409:
 		return errors.New("Update Product data failed")
 	default:
-		res.Id = Update.ID
+		res.Id = strconv.FormatInt(Update.ID, 10)
 		res.Name = Update.Name
 		res.Price = Update.Price
 		res.Quantity = Update.Quantity

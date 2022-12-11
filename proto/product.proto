@@ -4,7 +4,7 @@ package models;
 import "google/protobuf/empty.proto";
 option go_package = "/proto";
 
-message ModelProtoProduct {
+message EntityProtoProduct {
     string id = 1;
     string name = 2;
     int64 quantity = 3;
@@ -13,7 +13,7 @@ message ModelProtoProduct {
 }
 
 message ResponseModelProductList {
-    repeated ModelProtoProduct list = 1;
+    repeated EntityProtoProduct list = 1;
 }
 message CreateProductRequest {
     string name = 1;
@@ -28,7 +28,7 @@ message DeleteProductRequest {
 
 service ServiceProductHandler {
     rpc ListProductRPC(google.protobuf.Empty) returns (ResponseModelProductList);
-    rpc CreateProductRPC(CreateProductRequest) returns (ModelProtoProduct);
-    rpc UpdateProductRPC(ModelProtoProduct) returns (ModelProtoProduct);
+    rpc CreateProductRPC(CreateProductRequest) returns (EntityProtoProduct);
+    rpc UpdateProductRPC(EntityProtoProduct) returns (EntityProtoProduct);
     rpc DeleteProductRPC(DeleteProductRequest) returns (google.protobuf.Empty);
 }

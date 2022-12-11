@@ -8,6 +8,7 @@ import (
 	pb "service-product/proto"
 	"service-product/schemas"
 	services "service-product/services/product"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,7 +26,6 @@ func (h *HandlerCreate) CreateProductHandler(ctx *gin.Context) {
 	var input schemas.SchemaProduct
 	ctx.ShouldBindJSON(&input)
 
-
 	_, err := h.service.CreateProductService(&input)
 
 	switch err.Type {
@@ -41,14 +41,16 @@ func (h *HandlerCreate) CreateProductHandler(ctx *gin.Context) {
 
 }
 
-func (h *ServiceProductHandler) CreateProductRPC(ctx context.Context, param *pb.CreateProductRequest,res *pb.ModelProtoProduct) error {
+func (h *ServiceProductHandler) CreateProductRPC(ctx context.Context, param *pb.CreateProductRequest, res *pb.EntityProtoProduct) error {
 
-	input:= schemas.SchemaProduct{
+	input := schemas.SchemaProduct{
 		IsActive: param.IsActive,
-		Name: param.Name,
+		Name:     param.Name,
 		Quantity: param.Quantity,
+		Price:    param.Price,
 	}
 	Create, err := h.serviceCreate.CreateProductService(&input)
+
 	switch err.Code {
 	case 500:
 		return errors.New("Internal Server Error")
@@ -57,12 +59,12 @@ func (h *ServiceProductHandler) CreateProductRPC(ctx context.Context, param *pb.
 	case 402:
 		return errors.New("Create new Product account failed")
 	default:
-		res.Id = Create.ID
+		res.Id = strconv.Itoa(int(Create.ID))
 		res.Name = Create.Name
 		res.Quantity = Create.Quantity
 		res.IsActive = Create.IsActive
+		res.Price = Create.Price
 	}
 	return nil
 
 }
-

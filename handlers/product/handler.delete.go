@@ -9,6 +9,7 @@ import (
 	pb "service-product/proto"
 	"service-product/schemas"
 	services "service-product/services/product"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,9 +25,7 @@ func NewHandlerDeleteProduct(service services.ServiceDelete) *handlerDelete {
 func (h *handlerDelete) DeleteProductHandler(ctx *gin.Context) {
 
 	var input schemas.SchemaProduct
-	input.ID = ctx.Param("id")
-
-
+	input.ID, _ = strconv.ParseInt(ctx.Param("id"), 10, 64)
 
 	_, err := h.service.DeleteProductService(&input)
 
@@ -42,10 +41,10 @@ func (h *handlerDelete) DeleteProductHandler(ctx *gin.Context) {
 	}
 }
 
-func (h *ServiceProductHandler) DeleteProductRPC(ctx context.Context, req *pb.DeleteProductRequest, res *empty.Empty)  error {
+func (h *ServiceProductHandler) DeleteProductRPC(ctx context.Context, req *pb.DeleteProductRequest, res *empty.Empty) error {
 
 	var input schemas.SchemaProduct
-	input.ID = req.Id
+	input.ID, _ = strconv.ParseInt(req.Id, 10, 64)
 
 	_, err := h.serviceDelete.DeleteProductService(&input)
 
@@ -60,4 +59,3 @@ func (h *ServiceProductHandler) DeleteProductRPC(ctx context.Context, req *pb.De
 		return nil
 	}
 }
-

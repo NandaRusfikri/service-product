@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/sirupsen/logrus"
 
-
 	//"service-product/schemas"
 
 	PluginConsul "github.com/go-micro/plugins/v4/registry/consul"
@@ -24,9 +23,6 @@ import (
 	"gorm.io/gorm"
 )
 
-
-
-
 func main() {
 
 	db := SetupDatabase()
@@ -42,10 +38,9 @@ func main() {
 	deleteStudentRepository := repositorys.NewRepositoryDelete(db)
 	deleteStudentService := services.NewServiceDelete(deleteStudentRepository)
 
-
 	resultsStudentRepository := repositorys.NewRepositoryResults(db)
 	resultsStudentService := services.NewServiceResults(resultsStudentRepository)
-	 InitProduct := handlers.NewHandlerRPCProduct(resultsStudentService,resultStudentService,createStudentService,updateStudentService,deleteStudentService)
+	InitProduct := handlers.NewHandlerRPCProduct(resultsStudentService, resultStudentService, createStudentService, updateStudentService, deleteStudentService)
 
 	service := micro.NewService(
 		micro.Server(grpc.NewServer()),
@@ -55,15 +50,10 @@ func main() {
 	consulConf.Address = "127.0.0.1:8567"
 	consulConf.Scheme = "http"
 
-
 	service.Init(
 		micro.Registry(
 			PluginConsul.NewRegistry(
 				PluginConsul.Config(consulConf))))
-
-	//handlers.ServiceProductHandler{}.Register(service.Server())
-
-	//ayam := handlers.ServiceProductHandler{}
 
 	pb.RegisterServiceProductHandlerHandler(service.Server(), InitProduct)
 
@@ -72,7 +62,6 @@ func main() {
 	}
 
 }
-
 
 func SetupDatabase() *gorm.DB {
 	urldb := pkg.GodotEnv("DATABASE_URI")
