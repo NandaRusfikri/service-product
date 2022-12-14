@@ -13,7 +13,7 @@ import (
 	handlers "service-product/controller/product"
 	"service-product/enitites"
 	"service-product/pkg"
-	pb "service-product/proto"
+	pb "service-product/proto/product"
 	repositorys "service-product/repositorys/product"
 	services "service-product/services/product"
 

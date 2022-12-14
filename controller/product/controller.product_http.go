@@ -39,7 +39,7 @@ func (controller *ProductControllerHTTP) CreateProductHandler(ctx *gin.Context) 
 func (controller *ProductControllerHTTP) DeleteProductHandler(ctx *gin.Context) {
 
 	var input schemas.SchemaProduct
-	input.ID, _ = strconv.ParseInt(ctx.Param("id"), 10, 64)
+	input.ID, _ = strconv.ParseUint(ctx.Param("id"), 10, 64)
 
 	_, err := controller.service.DeleteProductService(&input)
 
@@ -84,7 +84,7 @@ func (controller *ProductControllerHTTP) ResultsProductHandler(ctx *gin.Context)
 func (controller *ProductControllerHTTP) UpdateProductHandler(ctx *gin.Context) {
 
 	var input schemas.SchemaProduct
-	input.ID, _ = strconv.ParseInt(ctx.Param("id"), 10, 64)
+	input.ID, _ = strconv.ParseUint(ctx.Param("id"), 10, 64)
 	ctx.ShouldBindJSON(&input)
 
 	_, err := controller.service.UpdateProductService(&input)

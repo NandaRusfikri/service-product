@@ -86,6 +86,7 @@ func (r *productRepositoryImplSQL) GetProductByIDRepository(id uint64) (enitites
 	var students enitites.EntityProduct
 	errorCode := make(chan schemas.SchemaDatabaseError, 1)
 	db := r.db.Model(&students)
+	students.ID = id
 	resultProduct := db.Debug().First(&students, id)
 	if resultProduct.RowsAffected < 1 {
 		errorCode <- schemas.SchemaDatabaseError{
@@ -94,6 +95,8 @@ func (r *productRepositoryImplSQL) GetProductByIDRepository(id uint64) (enitites
 		}
 		return students, <-errorCode
 	}
+
+	errorCode <- schemas.SchemaDatabaseError{}
 
 	return students, <-errorCode
 }

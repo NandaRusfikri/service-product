@@ -4,7 +4,8 @@ import (
 	"context"
 	"errors"
 	"github.com/golang/protobuf/ptypes/empty"
-	pb "service-product/proto"
+	"net/http"
+	pb "service-product/proto/product"
 	"service-product/schemas"
 	services "service-product/services/product"
 	"strconv"
@@ -19,6 +20,31 @@ func NewControllerProductRPC(
 	return &ProductControllerGRPC{
 		service: service,
 	}
+}
+
+func (controller *ProductControllerGRPC) GetProductByIdRPC(ctx context.Context, param *pb.ProductByIdRequest, res *pb.EntityProtoProduct) error {
+
+	id, ErrParse := strconv.ParseUint(param.Id, 10, 64)
+	if ErrParse != nil {
+		return errors.New("Id must be number")
+	}
+
+	Product, err := controller.service.GetProductByIDService(id)
+
+	switch err.Code {
+	case 500:
+		return errors.New("Internal Server Error")
+	case http.StatusNotFound:
+		return nil
+	default:
+		res.Id = strconv.Itoa(int(Product.ID))
+		res.Name = Product.Name
+		res.Quantity = Product.Quantity
+		res.IsActive = Product.IsActive
+		res.Price = Product.Price
+	}
+	return nil
+
 }
 
 func (controller *ProductControllerGRPC) CreateProductRPC(ctx context.Context, param *pb.CreateProductRequest, res *pb.EntityProtoProduct) error {
@@ -49,10 +75,10 @@ func (controller *ProductControllerGRPC) CreateProductRPC(ctx context.Context, p
 
 }
 
-func (controller *ProductControllerGRPC) DeleteProductRPC(ctx context.Context, req *pb.DeleteProductRequest, res *empty.Empty) error {
+func (controller *ProductControllerGRPC) DeleteProductRPC(ctx context.Context, req *pb.ProductByIdRequest, res *empty.Empty) error {
 
 	var input schemas.SchemaProduct
-	input.ID, _ = strconv.ParseInt(req.Id, 10, 64)
+	input.ID, _ = strconv.ParseUint(req.Id, 10, 64)
 
 	_, err := controller.service.DeleteProductService(&input)
 
@@ -80,7 +106,7 @@ func (controller *ProductControllerGRPC) ListProductRPC(ctx context.Context, emp
 	default:
 		for _, product := range ListProduct {
 			data := pb.EntityProtoProduct{
-				Id:       strconv.FormatInt(product.ID, 10),
+				Id:       strconv.FormatUint(product.ID, 10),
 				Name:     product.Name,
 				Quantity: product.Quantity,
 				Price:    product.Price,
@@ -98,7 +124,7 @@ func (controller *ProductControllerGRPC) ListProductRPC(ctx context.Context, emp
 func (controller *ProductControllerGRPC) UpdateProductRPC(ctx context.Context, req *pb.EntityProtoProduct, res *pb.EntityProtoProduct) error {
 
 	var input schemas.SchemaProduct
-	input.ID, _ = strconv.ParseInt(req.Id, 10, 64)
+	input.ID, _ = strconv.ParseUint(req.Id, 10, 64)
 	input.Name = req.Name
 	input.Price = req.Price
 	input.Quantity = req.Quantity
@@ -114,7 +140,7 @@ func (controller *ProductControllerGRPC) UpdateProductRPC(ctx context.Context, r
 	case 409:
 		return errors.New("Update Product data failed")
 	default:
-		res.Id = strconv.FormatInt(Update.ID, 10)
+		res.Id = strconv.FormatUint(Update.ID, 10)
 		res.Name = Update.Name
 		res.Price = Update.Price
 		res.Quantity = Update.Quantity

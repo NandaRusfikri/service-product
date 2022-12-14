@@ -2,7 +2,7 @@ syntax ="proto3";
 
 package models;
 import "google/protobuf/empty.proto";
-option go_package = "/proto";
+option go_package = "/proto/product";
 
 message EntityProtoProduct {
     string id = 1;
@@ -21,14 +21,15 @@ message CreateProductRequest {
     int64 price = 3;
     bool is_active = 4;
 }
-message DeleteProductRequest {
+
+message ProductByIdRequest {
     string id = 1;
 }
 
-
 service ServiceProductHandler {
+    rpc GetProductByIdRPC(ProductByIdRequest) returns (EntityProtoProduct) {}
     rpc ListProductRPC(google.protobuf.Empty) returns (ResponseEntityProductList);
     rpc CreateProductRPC(CreateProductRequest) returns (EntityProtoProduct);
     rpc UpdateProductRPC(EntityProtoProduct) returns (EntityProtoProduct);
-    rpc DeleteProductRPC(DeleteProductRequest) returns (google.protobuf.Empty);
+    rpc DeleteProductRPC(ProductByIdRequest) returns (google.protobuf.Empty);
 }
