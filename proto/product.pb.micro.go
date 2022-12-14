@@ -37,7 +37,7 @@ func NewServiceProductHandlerEndpoints() []*api.Endpoint {
 // Client API for ServiceProductHandler service
 
 type ServiceProductHandlerService interface {
-	ListProductRPC(ctx context.Context, in *emptypb.Empty, opts ...client.CallOption) (*ResponseModelProductList, error)
+	ListProductRPC(ctx context.Context, in *emptypb.Empty, opts ...client.CallOption) (*ResponseEntityProductList, error)
 	CreateProductRPC(ctx context.Context, in *CreateProductRequest, opts ...client.CallOption) (*EntityProtoProduct, error)
 	UpdateProductRPC(ctx context.Context, in *EntityProtoProduct, opts ...client.CallOption) (*EntityProtoProduct, error)
 	DeleteProductRPC(ctx context.Context, in *DeleteProductRequest, opts ...client.CallOption) (*emptypb.Empty, error)
@@ -55,9 +55,9 @@ func NewServiceProductHandlerService(name string, c client.Client) ServiceProduc
 	}
 }
 
-func (c *serviceProductHandlerService) ListProductRPC(ctx context.Context, in *emptypb.Empty, opts ...client.CallOption) (*ResponseModelProductList, error) {
+func (c *serviceProductHandlerService) ListProductRPC(ctx context.Context, in *emptypb.Empty, opts ...client.CallOption) (*ResponseEntityProductList, error) {
 	req := c.c.NewRequest(c.name, "ServiceProductHandler.ListProductRPC", in)
-	out := new(ResponseModelProductList)
+	out := new(ResponseEntityProductList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -98,7 +98,7 @@ func (c *serviceProductHandlerService) DeleteProductRPC(ctx context.Context, in 
 // Server API for ServiceProductHandler service
 
 type ServiceProductHandlerHandler interface {
-	ListProductRPC(context.Context, *emptypb.Empty, *ResponseModelProductList) error
+	ListProductRPC(context.Context, *emptypb.Empty, *ResponseEntityProductList) error
 	CreateProductRPC(context.Context, *CreateProductRequest, *EntityProtoProduct) error
 	UpdateProductRPC(context.Context, *EntityProtoProduct, *EntityProtoProduct) error
 	DeleteProductRPC(context.Context, *DeleteProductRequest, *emptypb.Empty) error
@@ -106,7 +106,7 @@ type ServiceProductHandlerHandler interface {
 
 func RegisterServiceProductHandlerHandler(s server.Server, hdlr ServiceProductHandlerHandler, opts ...server.HandlerOption) error {
 	type serviceProductHandler interface {
-		ListProductRPC(ctx context.Context, in *emptypb.Empty, out *ResponseModelProductList) error
+		ListProductRPC(ctx context.Context, in *emptypb.Empty, out *ResponseEntityProductList) error
 		CreateProductRPC(ctx context.Context, in *CreateProductRequest, out *EntityProtoProduct) error
 		UpdateProductRPC(ctx context.Context, in *EntityProtoProduct, out *EntityProtoProduct) error
 		DeleteProductRPC(ctx context.Context, in *DeleteProductRequest, out *emptypb.Empty) error
@@ -122,7 +122,7 @@ type serviceProductHandlerHandler struct {
 	ServiceProductHandlerHandler
 }
 
-func (h *serviceProductHandlerHandler) ListProductRPC(ctx context.Context, in *emptypb.Empty, out *ResponseModelProductList) error {
+func (h *serviceProductHandlerHandler) ListProductRPC(ctx context.Context, in *emptypb.Empty, out *ResponseEntityProductList) error {
 	return h.ServiceProductHandlerHandler.ListProductRPC(ctx, in, out)
 }
 

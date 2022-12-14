@@ -10,8 +10,8 @@ import (
 	"gorm.io/driver/mysql"
 	"log"
 	"os"
-	handlers "service-product/handlers/product"
-	"service-product/models"
+	handlers "service-product/controller/product"
+	"service-product/enitites"
 	"service-product/pkg"
 	pb "service-product/proto"
 	repositorys "service-product/repositorys/product"
@@ -26,25 +26,15 @@ import (
 func main() {
 
 	db := SetupDatabase()
-	createStudentRepository := repositorys.NewRepositoryCreate(db)
-	createStudentService := services.NewServiceCreate(createStudentRepository)
+	productRepository := repositorys.NewProductRepositorySQL(db)
+	productService := services.NewServiceProduct(productRepository)
 
-	updateStudentRepository := repositorys.NewRepositoryUpdate(db)
-	updateStudentService := services.NewServiceUpdate(updateStudentRepository)
-
-	resultStudentRepository := repositorys.NewRepositoryResult(db)
-	resultStudentService := services.NewServiceResult(resultStudentRepository)
-
-	deleteStudentRepository := repositorys.NewRepositoryDelete(db)
-	deleteStudentService := services.NewServiceDelete(deleteStudentRepository)
-
-	resultsStudentRepository := repositorys.NewRepositoryResults(db)
-	resultsStudentService := services.NewServiceResults(resultsStudentRepository)
-	InitProduct := handlers.NewHandlerRPCProduct(resultsStudentService, resultStudentService, createStudentService, updateStudentService, deleteStudentService)
+	InitProduct := handlers.NewControllerProductRPC(productService)
 
 	service := micro.NewService(
 		micro.Server(grpc.NewServer()),
 		micro.Name("service-product"),
+		micro.Version("1.0.0"),
 	)
 	consulConf := ConsulAPI.DefaultConfig()
 	consulConf.Address = "127.0.0.1:8567"
@@ -78,7 +68,7 @@ func SetupDatabase() *gorm.DB {
 	}
 
 	err = db.AutoMigrate(
-		&models.ModelProduct{},
+		&enitites.EntityProduct{},
 		//&models.ModelUser{},
 	)
 

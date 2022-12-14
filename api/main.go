@@ -9,7 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"os"
-	"service-product/models"
+	"service-product/enitites"
 	"service-product/pkg"
 	"service-product/routes"
 	//"gorm.io/driver/postgres"
@@ -18,10 +18,8 @@ import (
 
 func main() {
 
-
 	app := SetupRouter()
 	logrus.Fatal(app.Run(":" + pkg.GodotEnv("GO_PORT")))
-
 
 }
 
@@ -29,7 +27,7 @@ func SetupRouter() *gin.Engine {
 	db := SetupDatabase()
 	app := gin.Default()
 
-	fmt.Println("GO_ENV main ",pkg.GodotEnv("GO_ENV"))
+	fmt.Println("GO_ENV main ", pkg.GodotEnv("GO_ENV"))
 	if pkg.GodotEnv("GO_ENV") != "production" && pkg.GodotEnv("GO_ENV") != "test" {
 		gin.SetMode(gin.DebugMode)
 	} else if pkg.GodotEnv("GO_ENV") == "test" {
@@ -47,7 +45,7 @@ func SetupRouter() *gin.Engine {
 	}))
 	app.Use(helmet.Default())
 	app.Use(gzip.Gzip(gzip.BestCompression))
-	routes.InitStudentRoutes(db, app)
+	routes.InitProductRoutes(db, app)
 
 	return app
 }
@@ -67,7 +65,7 @@ func SetupDatabase() *gorm.DB {
 	}
 
 	err = db.AutoMigrate(
-		&models.ModelProduct{},
+		&enitites.EntityProduct{},
 		//&models.ModelUser{},
 	)
 

@@ -1,8 +1,9 @@
 package schemas
 
 type SchemaDatabaseError struct {
-	Type string
-	Code int
+	Type    string
+	Code    int
+	Message string
 }
 
 type SchemaErrorResponse struct {

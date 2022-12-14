@@ -12,7 +12,7 @@ message EntityProtoProduct {
     bool is_active = 5;
 }
 
-message ResponseModelProductList {
+message ResponseEntityProductList {
     repeated EntityProtoProduct list = 1;
 }
 message CreateProductRequest {
@@ -27,7 +27,7 @@ message DeleteProductRequest {
 
 
 service ServiceProductHandler {
-    rpc ListProductRPC(google.protobuf.Empty) returns (ResponseModelProductList);
+    rpc ListProductRPC(google.protobuf.Empty) returns (ResponseEntityProductList);
     rpc CreateProductRPC(CreateProductRequest) returns (EntityProtoProduct);
     rpc UpdateProductRPC(EntityProtoProduct) returns (EntityProtoProduct);
     rpc DeleteProductRPC(DeleteProductRequest) returns (google.protobuf.Empty);

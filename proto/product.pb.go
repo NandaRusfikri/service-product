@@ -100,7 +100,7 @@ func (x *EntityProtoProduct) GetIsActive() bool {
 	return false
 }
 
-type ResponseModelProductList struct {
+type ResponseEntityProductList struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -108,8 +108,8 @@ type ResponseModelProductList struct {
 	List []*EntityProtoProduct `protobuf:"bytes,1,rep,name=list,proto3" json:"list,omitempty"`
 }
 
-func (x *ResponseModelProductList) Reset() {
-	*x = ResponseModelProductList{}
+func (x *ResponseEntityProductList) Reset() {
+	*x = ResponseEntityProductList{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_product_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -117,13 +117,13 @@ func (x *ResponseModelProductList) Reset() {
 	}
 }
 
-func (x *ResponseModelProductList) String() string {
+func (x *ResponseEntityProductList) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ResponseModelProductList) ProtoMessage() {}
+func (*ResponseEntityProductList) ProtoMessage() {}
 
-func (x *ResponseModelProductList) ProtoReflect() protoreflect.Message {
+func (x *ResponseEntityProductList) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_product_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -135,12 +135,12 @@ func (x *ResponseModelProductList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResponseModelProductList.ProtoReflect.Descriptor instead.
-func (*ResponseModelProductList) Descriptor() ([]byte, []int) {
+// Deprecated: Use ResponseEntityProductList.ProtoReflect.Descriptor instead.
+func (*ResponseEntityProductList) Descriptor() ([]byte, []int) {
 	return file_proto_product_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ResponseModelProductList) GetList() []*EntityProtoProduct {
+func (x *ResponseEntityProductList) GetList() []*EntityProtoProduct {
 	if x != nil {
 		return x.List
 	}
@@ -333,19 +333,19 @@ func file_proto_product_proto_rawDescGZIP() []byte {
 
 var file_proto_product_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_product_proto_goTypes = []interface{}{
-	(*EntityProtoProduct)(nil),       // 0: models.EntityProtoProduct
-	(*ResponseModelProductList)(nil), // 1: models.ResponseModelProductList
-	(*CreateProductRequest)(nil),     // 2: models.CreateProductRequest
-	(*DeleteProductRequest)(nil),     // 3: models.DeleteProductRequest
-	(*emptypb.Empty)(nil),            // 4: google.protobuf.Empty
+	(*EntityProtoProduct)(nil),        // 0: models.EntityProtoProduct
+	(*ResponseEntityProductList)(nil), // 1: models.ResponseEntityProductList
+	(*CreateProductRequest)(nil),      // 2: models.CreateProductRequest
+	(*DeleteProductRequest)(nil),      // 3: models.DeleteProductRequest
+	(*emptypb.Empty)(nil),             // 4: google.protobuf.Empty
 }
 var file_proto_product_proto_depIdxs = []int32{
-	0, // 0: models.ResponseModelProductList.list:type_name -> models.EntityProtoProduct
+	0, // 0: models.ResponseEntityProductList.list:type_name -> models.EntityProtoProduct
 	4, // 1: models.ServiceProductHandler.ListProductRPC:input_type -> google.protobuf.Empty
 	2, // 2: models.ServiceProductHandler.CreateProductRPC:input_type -> models.CreateProductRequest
 	0, // 3: models.ServiceProductHandler.UpdateProductRPC:input_type -> models.EntityProtoProduct
 	3, // 4: models.ServiceProductHandler.DeleteProductRPC:input_type -> models.DeleteProductRequest
-	1, // 5: models.ServiceProductHandler.ListProductRPC:output_type -> models.ResponseModelProductList
+	1, // 5: models.ServiceProductHandler.ListProductRPC:output_type -> models.ResponseEntityProductList
 	0, // 6: models.ServiceProductHandler.CreateProductRPC:output_type -> models.EntityProtoProduct
 	0, // 7: models.ServiceProductHandler.UpdateProductRPC:output_type -> models.EntityProtoProduct
 	4, // 8: models.ServiceProductHandler.DeleteProductRPC:output_type -> google.protobuf.Empty
@@ -375,7 +375,7 @@ func file_proto_product_proto_init() {
 			}
 		}
 		file_proto_product_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ResponseModelProductList); i {
+			switch v := v.(*ResponseEntityProductList); i {
 			case 0:
 				return &v.state
 			case 1:

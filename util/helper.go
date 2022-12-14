@@ -92,10 +92,6 @@ func BasicAuth(username, password string) string {
 	return base64.StdEncoding.EncodeToString([]byte(auth))
 }
 
-
-
-
-
 func HttpTestRequest(method, url string, payload []byte) (*httptest.ResponseRecorder, *http.Request, error) {
 
 	request := make(chan *http.Request, 1)
@@ -118,9 +114,9 @@ func HttpTestRequest(method, url string, payload []byte) (*httptest.ResponseReco
 func APIResponse(ctx *gin.Context, Message string, StatusCode int, Count *int64, Data interface{}) {
 
 	jsonResponse := schemas.SchemaResponses{
-		StatusCode:    StatusCode,
+		StatusCode: StatusCode,
 		//Method:  Method,
-		Count:Count,
+		//Count:Count,
 		Message: Message,
 		Data:    Data,
 		//Items:   Items,
@@ -142,5 +138,3 @@ func ValidatorErrorResponse(ctx *gin.Context, StatusCode int, Method string, Err
 
 	ctx.AbortWithStatusJSON(StatusCode, errResponse)
 }
-
-
